@@ -1,43 +1,31 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Pagination from "../components/Pagination";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [totalPages, setTotalPages] = useState(0);
-	const [currentPage, setCurrentPage] = useState(1);
-
-	const productsPerPage = 10;
 
 	useEffect(() => {
 		setIsLoading(true);
 		setError(null);
 
-		fetch(
-			`https://dummyjson.com/products?limit=${productsPerPage}&skip=${
-				(currentPage - 1) * productsPerPage
-			}`
-		)
+		fetch("https://dummyjson.com/products")
 			.then((res) => {
 				if (!res.ok) {
 					throw new Error("Couldn't fetch Data");
 				}
 				return res.json();
 			})
-			.then((productsData) => {
-				setProducts(productsData.products);
-				setTotalPages(Math.ceil(productsData.total / productsPerPage));
-			})
+			.then((productsData) => setProducts(productsData.products))
 			.catch((error) => setError(error.message))
 			.finally(() => setIsLoading(false));
-	}, [currentPage]);
+	}, []);
 
 	return (
 		<section className="products-container">
-			<h2>All Products</h2>
+			<h2>Wellcome to Products Page</h2>
 
 			{/* Loading and Error */}
 			{isLoading && <p>Products Loading............</p>}
@@ -72,11 +60,7 @@ const Products = () => {
 					</div>
 
 					{/* pagination */}
-					<Pagination
-						totalPages={totalPages}
-						currentPage={currentPage}
-						onHandleCurrentPage={setCurrentPage}
-					/>
+					<div className="pagination"></div>
 				</>
 			)}
 		</section>

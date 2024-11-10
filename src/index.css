@@ -264,7 +264,7 @@ body {
 }
 
 .pagination button.active,
-.pagination button.hover {
+.pagination button:hover {
 	background-color: #4caf50;
 	color: white;
 	border: none;
