@@ -30,15 +30,26 @@ const Signin = () => {
 			const secondLetter = filedValue.email[1];
 			const cutomImg = firstLetter + secondLetter;
 			toast.success("Successfully logged in");
-			navigate("/user-profile", {
-				state: {
-					name: filedValue.email.slice(0, 4),
-					email: filedValue.email,
-					city: "Add Your City",
-					country: "Bangladesh",
-					img: cutomImg,
-				},
-			});
+
+			const user = {
+				name: filedValue.email.slice(0, 4),
+				email: filedValue.email,
+				city: "Add Your City",
+				country: "Bangladesh",
+				img: cutomImg,
+				isAdmin: false,
+			};
+
+			localStorage.setItem(
+				"userData",
+				JSON.stringify({ user, isLoggedIn: true })
+			);
+
+			const path = user.isAdmin
+				? "/dashboard/admin/profile"
+				: "/dashboard/user/profile";
+
+			navigate(path, { state: user });
 		}
 	};
 

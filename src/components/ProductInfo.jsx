@@ -52,7 +52,7 @@ const ProductInfo = () => {
 					<p>
 						<strong>Description:</strong> {product?.description}
 					</p>
-					<Link to={`/products`} className="product__link">
+					<Link to={`/`} className="product__link">
 						Continue Shopping
 					</Link>
 				</article>

@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "./index.css";
-import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Products from "./pages/Products";
@@ -29,7 +28,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: <Home />,
+				element: <Products />,
 			},
 			{
 				path: "/about",
@@ -40,16 +39,16 @@ const router = createBrowserRouter([
 				element: <Contact />,
 			},
 			{
-				path: "/products",
-				element: <Products />,
-			},
-			{
 				path: "/products/:productId",
 				// element: <ProductDetails />,
 				element: <ProductInfo />,
 			},
 			{
 				path: "/signin",
+				element: <Signin />,
+			},
+			{
+				path: "/signout",
 				element: <Signin />,
 			},
 			{

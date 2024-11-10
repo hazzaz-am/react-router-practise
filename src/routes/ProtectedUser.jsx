@@ -2,8 +2,10 @@ import { Outlet } from "react-router-dom";
 import Signin from "../pages/Signin";
 
 const ProtectedUser = () => {
-	const isSignedin = false;
+	const userData =
+		localStorage.getItem("userData") &&
+		JSON.parse(localStorage.getItem("userData"));
 
-	return isSignedin ? <Outlet /> : <Signin />;
+	return userData?.isLoggedIn ? <Outlet /> : <Signin />;
 };
 export default ProtectedUser;
