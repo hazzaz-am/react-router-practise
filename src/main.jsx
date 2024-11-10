@@ -9,10 +9,17 @@ import Contact from "./pages/Contact";
 import Products from "./pages/Products";
 import Header from "./layout/Header";
 import Signin from "./pages/Signin";
-import Profile from "./pages/Profile";
 // import ProductDetails from "./components/ProductDetails";
 import ProductInfo from "./components/ProductInfo";
 import ErrorPage from "./pages/NotFound";
+import UserProfile from "./components/users/UserProfile";
+import ProtectedUser from "./routes/ProtectedUser";
+import UserOrders from "./components/users/UserOrders";
+import ProtectedAdmin from "./routes/ProtectedAdmin";
+import Profile from "./components/admin/Profile";
+import Orders from "./components/admin/Orders";
+import ManageUsers from "./components/admin/ManageUsers";
+import Categories from "./components/admin/Categories";
 
 const router = createBrowserRouter([
 	{
@@ -46,8 +53,40 @@ const router = createBrowserRouter([
 				element: <Signin />,
 			},
 			{
-				path: "/profile",
-				element: <Profile />,
+				path: "/dashboard/user",
+				element: <ProtectedUser />,
+				children: [
+					{
+						path: "profile",
+						element: <UserProfile />,
+					},
+					{
+						path: "orders",
+						element: <UserOrders />,
+					},
+				],
+			},
+			{
+				path: "/dashboard/admin",
+				element: <ProtectedAdmin />,
+				children: [
+					{
+						path: "profile",
+						element: <Profile />,
+					},
+					{
+						path: "orders",
+						element: <Orders />,
+					},
+					{
+						path: "manage-users",
+						element: <ManageUsers />,
+					},
+					{
+						path: "categories",
+						element: <Categories />,
+					},
+				],
 			},
 		],
 	},

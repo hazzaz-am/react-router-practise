@@ -30,7 +30,7 @@ const Signin = () => {
 			const secondLetter = filedValue.email[1];
 			const cutomImg = firstLetter + secondLetter;
 			toast.success("Successfully logged in");
-			navigate("/profile", {
+			navigate("/user-profile", {
 				state: {
 					name: filedValue.email.slice(0, 4),
 					email: filedValue.email,
