@@ -7,17 +7,18 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Products from "./pages/Products";
-import NotFound from "./pages/NotFound";
 import Header from "./layout/Header";
 import Signin from "./pages/Signin";
 import Profile from "./pages/Profile";
 // import ProductDetails from "./components/ProductDetails";
 import ProductInfo from "./components/ProductInfo";
+import ErrorPage from "./pages/NotFound";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Header />,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: "/",
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
 			{
 				path: "/products/:productId",
 				// element: <ProductDetails />,
-				element: <ProductInfo/>
+				element: <ProductInfo />,
 			},
 			{
 				path: "/signin",
@@ -47,10 +48,6 @@ const router = createBrowserRouter([
 			{
 				path: "/profile",
 				element: <Profile />,
-			},
-			{
-				path: "*",
-				element: <NotFound />,
 			},
 		],
 	},

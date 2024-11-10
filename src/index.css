@@ -303,6 +303,17 @@ body {
 }
 /* search and sort ends here  */
 
+/* error page start */
+#error-page {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+/* error page end */
+
+
 /* responsiveness starts here  */
 @media (max-width: 768px) {
 	.navbar__links ul {
