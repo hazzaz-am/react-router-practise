@@ -55,7 +55,7 @@ const Pagination = ({ totalPages, currentPage, onHandleCurrentPage }) => {
 			</button>
 			{visiblePages.map((pageNumber) => (
 				<button
-					className={currentPage === pageNumber && "active"}
+					className={currentPage === pageNumber ? "active" : ""}
 					onClick={() => onHandleCurrentPage(pageNumber)}
 					key={pageNumber}
 				>

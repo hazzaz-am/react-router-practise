@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import SearchProducts from "../components/SearchProducts";
+import SortProducts from "../components/SortProducts";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
@@ -11,6 +12,7 @@ const Products = () => {
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [searchTerm, setSearchTerm] = useState("");
+	const [sortCriteria, setSortCriteria] = useState("");
 
 	const productsPerPage = 10;
 
@@ -28,6 +30,13 @@ const Products = () => {
 			}`;
 		}
 
+		if (sortCriteria) {
+			const splitCriteria = sortCriteria.split("-");
+			const title = splitCriteria[0];
+			const order = splitCriteria[1];
+			url += `&sortBy=${title}&order=${order}`;
+		}
+
 		fetch(url)
 			.then((res) => {
 				if (!res.ok) {
@@ -41,12 +50,16 @@ const Products = () => {
 			})
 			.catch((error) => setError(error.message))
 			.finally(() => setIsLoading(false));
-	}, [currentPage, searchTerm]);
+	}, [currentPage, searchTerm, sortCriteria]);
 
 	const handleSearchTerm = (e) => {
 		setSearchTerm(e.target.value);
 		// reset to first page on new search
 		setCurrentPage(1);
+	};
+
+	const handleSortCriteria = (e) => {
+		setSortCriteria(e.target.value);
 	};
 
 	// for searching products in current page
@@ -56,11 +69,19 @@ const Products = () => {
 		<section className="products-container">
 			<h2>All Products</h2>
 
-			{/* search term */}
-			<SearchProducts
-				searchTerm={searchTerm}
-				onHandleSearchTerm={handleSearchTerm}
-			/>
+			<div className="actions">
+				{/* search products */}
+				<SearchProducts
+					searchTerm={searchTerm}
+					onHandleSearchTerm={handleSearchTerm}
+				/>
+
+				{/* sort products */}
+				<SortProducts
+					onHandleSortCriteria={handleSortCriteria}
+					sortCriteria={sortCriteria}
+				/>
+			</div>
 
 			{/* Loading and Error */}
 			{isLoading && <p>Products Loading............</p>}
