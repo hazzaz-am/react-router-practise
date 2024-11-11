@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import SearchProducts from "../components/SearchProducts";
 
 const Products = () => {
 	const [products, setProducts] = useState([]);
@@ -17,11 +18,17 @@ const Products = () => {
 		setIsLoading(true);
 		setError(null);
 
-		fetch(
-			`https://dummyjson.com/products?limit=${productsPerPage}&skip=${
+		let url = `https://dummyjson.com/products?limit=${productsPerPage}&skip=${
+			(currentPage - 1) * productsPerPage
+		}`;
+
+		if (!searchTerm) {
+			url = `https://dummyjson.com/products/search?q=${searchTerm}&limit=${productsPerPage}&skip=${
 				(currentPage - 1) * productsPerPage
-			}`
-		)
+			}`;
+		}
+
+		fetch(url)
 			.then((res) => {
 				if (!res.ok) {
 					throw new Error("Couldn't fetch Data");
@@ -34,27 +41,25 @@ const Products = () => {
 			})
 			.catch((error) => setError(error.message))
 			.finally(() => setIsLoading(false));
-	}, [currentPage]);
+	}, [currentPage, searchTerm]);
 
 	const handleSearchTerm = (e) => {
 		setSearchTerm(e.target.value);
+		// reset to first page on new search
+		setCurrentPage(1);
 	};
 
 	// for searching products in current page
-	const filterProducts = products.filter(product => product.title.toLowerCase().includes(searchTerm.toLowerCase()))
+	// const filterProducts = products.filter(product => product.title.toLowerCase().includes(searchTerm.toLowerCase()))
 
 	return (
 		<section className="products-container">
 			<h2>All Products</h2>
 
 			{/* search term */}
-			<input
-				type="text"
-				name="search"
-				placeholder="Search Products....."
-				id="search"
-				onChange={handleSearchTerm}
-				value={searchTerm}
+			<SearchProducts
+				searchTerm={searchTerm}
+				onHandleSearchTerm={handleSearchTerm}
 			/>
 
 			{/* Loading and Error */}
@@ -65,9 +70,9 @@ const Products = () => {
 				<>
 					{/* Products */}
 					<div className="products">
-						{filterProducts &&
-							filterProducts.length > 0 &&
-							filterProducts.map((product) => (
+						{products &&
+							products.length > 0 &&
+							products.map((product) => (
 								<article key={product.id} className="product">
 									<img
 										src={product.images[0]}
