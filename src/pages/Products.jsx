@@ -24,7 +24,7 @@ const Products = () => {
 			(currentPage - 1) * productsPerPage
 		}`;
 
-		if (!searchTerm) {
+		if (searchTerm !== "") {
 			url = `https://dummyjson.com/products/search?q=${searchTerm}&limit=${productsPerPage}&skip=${
 				(currentPage - 1) * productsPerPage
 			}`;
