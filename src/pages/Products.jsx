@@ -9,6 +9,7 @@ const Products = () => {
 	const [error, setError] = useState(null);
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [searchTerm, setSearchTerm] = useState("");
 
 	const productsPerPage = 10;
 
@@ -35,9 +36,26 @@ const Products = () => {
 			.finally(() => setIsLoading(false));
 	}, [currentPage]);
 
+	const handleSearchTerm = (e) => {
+		setSearchTerm(e.target.value);
+	};
+
+	// for searching products in current page
+	const filterProducts = products.filter(product => product.title.toLowerCase().includes(searchTerm.toLowerCase()))
+
 	return (
 		<section className="products-container">
 			<h2>All Products</h2>
+
+			{/* search term */}
+			<input
+				type="text"
+				name="search"
+				placeholder="Search Products....."
+				id="search"
+				onChange={handleSearchTerm}
+				value={searchTerm}
+			/>
 
 			{/* Loading and Error */}
 			{isLoading && <p>Products Loading............</p>}
@@ -47,9 +65,9 @@ const Products = () => {
 				<>
 					{/* Products */}
 					<div className="products">
-						{products &&
-							products.length > 0 &&
-							products.map((product) => (
+						{filterProducts &&
+							filterProducts.length > 0 &&
+							filterProducts.map((product) => (
 								<article key={product.id} className="product">
 									<img
 										src={product.images[0]}
