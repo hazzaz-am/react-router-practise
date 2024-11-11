@@ -21,6 +21,26 @@ const Pagination = ({ totalPages, currentPage, onHandleCurrentPage }) => {
 		onHandleCurrentPage(totalPages);
 	};
 
+	const getVisiblePageNumbers = () => {
+		const visiblePages = 5;
+		const pages = [];
+
+		let startingPage = Math.max(1, currentPage - Math.floor(visiblePages / 2));
+		const endingPage = Math.min(totalPages, startingPage + (visiblePages - 1));
+
+		if (endingPage - startingPage < visiblePages - 1) {
+			startingPage = Math.max(1, endingPage - visiblePages + 1);
+		}
+
+		for (let i = startingPage; i <= endingPage; i++) {
+			pages.push(i);
+		}
+
+		return pages;
+	};
+
+	const visiblePages = getVisiblePageNumbers();
+
 	return (
 		<div className="pagination">
 			<button
@@ -33,13 +53,13 @@ const Pagination = ({ totalPages, currentPage, onHandleCurrentPage }) => {
 			<button onClick={handlePreviousPage} disabled={currentPage === 1}>
 				Previous
 			</button>
-			{Array.from({ length: totalPages }, (_, idx) => (
+			{visiblePages.map((pageNumber) => (
 				<button
-					className={currentPage === idx + 1 && "active"}
-					onClick={() => onHandleCurrentPage(idx + 1)}
-					key={idx}
+					className={currentPage === pageNumber && "active"}
+					onClick={() => onHandleCurrentPage(pageNumber)}
+					key={pageNumber}
 				>
-					{idx + 1}
+					{pageNumber}
 				</button>
 			))}
 			<button onClick={handleNextPage} disabled={currentPage === totalPages}>
